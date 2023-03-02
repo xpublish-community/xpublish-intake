@@ -1,0 +1,8 @@
+name: xpublish_catalog
+channels:
+  - conda-forge
+dependencies:
+  - conda-forge::flake8 =3.9.2
+  - conda-forge::pytest >7.0
+  - conda-forge::pytest-env =0.6.2
+  - conda-forge::pytest-flake8
