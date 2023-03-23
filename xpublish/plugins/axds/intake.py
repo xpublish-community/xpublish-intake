@@ -40,6 +40,9 @@ def get_zarr_source(xpublish_id, dataset, request):
         # On multi-dataset servers add the dataset_id to the route
         url = request.url_for("get_zarr_metadata", dataset_id=xpublish_id)
 
+    # Convert url object from <class 'starlette.datastructures.URL'> to a string
+    url = str(url)
+
     # Remove .zmetadata from the URL to get the root zarr URL
     url = url.replace("/.zmetadata", "")
 
