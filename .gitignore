@@ -2,3 +2,8 @@
 .tox
 *.pyc
 __pycache__
+xpublish_intake/_version.py
+dist/
+build/
+.vscode/
+.pytest_cache/

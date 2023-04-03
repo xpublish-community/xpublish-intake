@@ -1,15 +1,18 @@
 [build-system]
-requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
+requires = [
+  "setuptools>=61",
+  "setuptools_scm[toml]>=3.4",
+  "wheel",
+]
 
 [project]
 name = "xpublish-intake"
-version = "0.0.1"
+description = "An xpublish plugin for serving intake catalogs"
+readme = "README.md"
 authors = [
   { name="Kyle Wilcox", email="kyle@axds.co" },
 ]
-description = "An xpublish plugin for serving intake catalogs"
-readme = "README.md"
 requires-python = ">=3.8"
 classifiers = [
     "Environment :: Web Environment",
@@ -22,25 +25,25 @@ classifiers = [
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
     "Topic :: Internet :: WWW/HTTP",
     "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
 ]
+dynamic =[
+  "version",
+]
 dependencies = [
-    "xpublish",
+  "xpublish",
 ]
-
 [project.urls]
-"Homepage" = "https://github.com/axiom-data-science/xpublish-intake"
 "Bug Tracker" = "https://github.com/axiom-data-science/xpublish-intake/issues"
+"Homepage" = "https://github.com/axiom-data-science/xpublish-intake"
 
-[tool.setuptools.packages.find]
-namespaces = true
-exclude = [
-    "tests",
-    "tests.*"
-]
+[tool.setuptools]
+packages = ["xpublish_intake"]
+zip-safe = false
+include-package-data = true
 
-[tool.isort]
-profile = "black"
-combine_as_imports = true
-lines_after_imports = 2
+[tool.setuptools_scm]
+write_to = "xpublish_intake/_version.py"
+write_to_template = "__version__ = '{version}'"

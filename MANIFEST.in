@@ -1,2 +1,13 @@
-include LICENSE
+include LICENSE.txt
 include README.md
+include pyproject.toml
+include reqs/*.yml
+
+graft xpublish_intake
+
+prune docs
+prune tests
+prune notebooks
+prune *.egg-info
+
+exclude .gitignore

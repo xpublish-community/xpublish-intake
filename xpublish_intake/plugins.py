@@ -1,12 +1,11 @@
-import yaml
 import logging
 from typing import Sequence
 
+import yaml
+from fastapi import APIRouter, Depends, Request, Response
 from starlette.routing import NoMatchFound
-from fastapi import APIRouter, Depends, Response, Request
-
-from xpublish.utils.api import DATASET_ID_ATTR_KEY
 from xpublish.plugins import Dependencies, Plugin, hookimpl
+from xpublish.utils.api import DATASET_ID_ATTR_KEY
 
 logger = logging.getLogger('intake_catalog')
 
@@ -34,7 +33,7 @@ def get_dataset_id(ds):
 def get_zarr_source(xpublish_id, dataset, request):
     url = ''
     try:
-        from xpublish.plugins.included.zarr import ZarrPlugin
+        from xpublish.plugins.included.zarr import ZarrPlugin  # noqa
         url = request.url_for("get_zarr_metadata")
     except NoMatchFound:
         # On multi-dataset servers add the dataset_id to the route
