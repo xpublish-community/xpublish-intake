@@ -1,8 +1,8 @@
-## xpublish-intake
+# xpublish-intake
 
-An xpublish plugin for serving intake catalogs
+An [`xpublish`](https://github.com/xarray-contrib/xpublish) plugin for serving intake catalogs
 
-### Installation
+## Installation
 
 For `conda` users you can
 

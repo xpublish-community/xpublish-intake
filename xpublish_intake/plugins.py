@@ -98,7 +98,7 @@ class IntakePlugin(Plugin):
                         'driver': 'intake.catalog.local.YAMLFileCatalog',
                         'metadata': self.dataset_metadata.get(d, {}),
                         'args': {
-                            'path': request.url_for('get_dataset_catalog', dataset_id=d)
+                            'path': str(request.url_for('get_dataset_catalog', dataset_id=d))
                         }
                     }
                     for d in dataset_ids
@@ -110,7 +110,7 @@ class IntakePlugin(Plugin):
                         'driver': 'intake.catalog.local.YAMLFileCatalog',
                         'metadata': self.dataset_metadata.get('default', {}),
                         'args': {
-                            'path': request.url_for('get_dataset_catalog')
+                            'path': str(request.url_for('get_dataset_catalog'))
                         }
                     }
                 }
