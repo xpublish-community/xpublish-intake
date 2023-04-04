@@ -21,6 +21,7 @@ jobs:
         python-version: "3.x"
 
     - name: Get tags
+      continue-on-error: true
       run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
       shell: bash
 

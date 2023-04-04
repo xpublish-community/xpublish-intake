@@ -47,3 +47,6 @@ include-package-data = true
 [tool.setuptools_scm]
 write_to = "xpublish_intake/_version.py"
 write_to_template = "__version__ = '{version}'"
+
+[project.entry-points."xpublish.plugin"]
+intake = "xpublish_intake.plugins:IntakePlugin"

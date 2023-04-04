@@ -5,9 +5,9 @@ include reqs/*.yml
 
 graft xpublish_intake
 
-prune docs
 prune tests
-prune notebooks
 prune *.egg-info
+prune .github
 
 exclude .gitignore
+exclude .pre-commit-config.yaml
