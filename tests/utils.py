@@ -4,8 +4,6 @@ from fastapi.testclient import TestClient
 from xpublish import Rest, SingleDatasetRest
 from xpublish.plugins.included.zarr import ZarrPlugin
 
-from xpublish_intake.plugins import IntakePlugin
-
 
 class DatasetTester:
 
@@ -97,7 +95,6 @@ class DatasetTester:
         assert ds['driver'] == 'zarr'
 
 
-
 class SingleDatasetTester(DatasetTester):
     @pytest.fixture(scope='module')
     def rest(self, dataset):
@@ -121,18 +118,18 @@ class SingleDatasetTester(DatasetTester):
         assert content['metadata']['access_url'] == 'http://testserver/intake.yaml'
         assert dsid in content['sources']
         ds = content['sources'][dsid]
-        assert ds['args']['path'] == f'http://testserver/catalog.yaml'
+        assert ds['args']['path'] == 'http://testserver/catalog.yaml'
         assert ds['driver'] == 'intake.catalog.local.YAMLFileCatalog'
 
     def test_intake_dataset(self, dsid, client):
-        response = client.get(f'/catalog.yaml')
+        response = client.get('/catalog.yaml')
         assert response.status_code == 200
 
         content = yaml.safe_load(response.text)
 
-        assert content['metadata']['access_url'] == f'http://testserver/catalog.yaml'
+        assert content['metadata']['access_url'] == 'http://testserver/catalog.yaml'
         assert content['name'] == dsid
         assert f'{dsid}-zarr' in content['sources']
         ds = content['sources'][f'{dsid}-zarr']
-        assert ds['args']['urlpath'] == f'http://testserver/zarr'
+        assert ds['args']['urlpath'] == 'http://testserver/zarr'
         assert ds['driver'] == 'zarr'
