@@ -24,7 +24,7 @@ def get_dataset_id(ds):
     dataset_id_options = [
         xpublish_id,
         cf_dataset_id,
-        'default'
+        'dataset'
     ]
 
     return next(x for x in dataset_id_options if x)
@@ -126,7 +126,7 @@ class IntakePlugin(Plugin):
         def get_request(request: Request) -> str:
             return request
 
-        @router.get('/intake.yaml', summary="Dataset intake catalog")
+        @router.get('/catalog.yaml', summary="Dataset intake catalog")
         def get_dataset_catalog(
             request=Depends(get_request),
             dataset=Depends(deps.dataset),
