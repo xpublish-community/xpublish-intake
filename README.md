@@ -18,7 +18,7 @@ For `conda` users you can
 conda install --channel conda-forge xpublish_intake
 ```
 
-or, if you are a `pip` users
+or, if you are a `pip` user
 
 ```shell
 pip install xpublish_intake
@@ -58,10 +58,10 @@ The `intake` plugin is by default configured with
 
 ## Get in touch
 
-Report bugs, suggest features or view the source code on [GitHub](https://github.com/axiom-data-science/xpublish_intake/issues).
+Report bugs, suggest features or view the source code on [GitHub](https://github.com/axiom-data-science/xpublish-intake/issues).
 
 ## License and copyright
 
 `xpublish_intake` is licensed under the MIT License.
 
-Development occurs on GitHub at <https://github.com/axiom-data-science/xpublish_intake>.
+Development occurs on GitHub at <https://github.com/axiom-data-science/xpublish-intake>.
