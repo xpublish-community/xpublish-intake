@@ -26,7 +26,7 @@ pip install xpublish_intake
 
 ## Setup
 
-The `intake` plugin will be automatically discoverd by `xpublish` if you have the library installed. This will work for most users if you don't need to customize the endpoints.
+The `intake` plugin will be automatically discovered by `xpublish` if you have the library installed. This will work for most users if you don't need to customize the endpoints.
 
 If you specify your plugins manually you will need to add `IntakePlugin` to the `plugins` argument of `xpublish.Rest` or register the `IntakePlugin` explicitly.
 
@@ -54,7 +54,7 @@ The `intake` plugin is by default configured with
 
 * `app_router_prefix='/intake'` which creates the `/intake.yaml` route for the root `intake` catalog containing all datasets in an `xpublish.Rest` instance. By default that route is available at `http://.../intake.yaml`.
 
-* `dataset_router_prefix=''` which creates an `/datasets/[name]/catalog.yaml` router for all datasets in the `xpublish.Rest` instance. By default those route are available at `http://.../datasets/[name]/catalog.yaml`.
+* `dataset_router_prefix=''` which creates an `/datasets/[name]/catalog.yaml` router for all datasets in the `xpublish.Rest` instance. By default those routes are available at `http://.../datasets/[name]/catalog.yaml`.
 
 ## Get in touch
 
