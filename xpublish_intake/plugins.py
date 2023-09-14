@@ -20,12 +20,12 @@ def get_dataset_id(ds,url):
             ] if x
         ]
     )    
-    dataset_by_url = url.split('/')[-2]
+    dataset_id_by_url = url.split('/')[-2]
 
     dataset_id_options = [
         xpublish_id,
         cf_dataset_id,
-        dataset_by_url,
+        dataset_id_by_url,
         'dataset'
     ]
 
