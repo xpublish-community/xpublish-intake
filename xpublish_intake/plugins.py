@@ -61,8 +61,8 @@ def get_zarr_source(xpublish_id, dataset, request):
 class IntakePlugin(Plugin):
     """Adds an Intake catalog endpoint"""
 
-    name = 'intake_catalog'
-    dataset_metadata = dict()
+    name: str = 'intake_catalog'
+    dataset_metadata: dict = dict()
 
     app_router_prefix: str = '/intake'
     app_router_tags: Sequence[str] = ['intake']
