@@ -60,7 +60,7 @@ class DatasetTester:
 
         assert dsid in content['sources']
         ds = content['sources'][dsid]
-        assert ds['args']['path'] == f'http://testserver/datasets/{dsid}/catalog.yaml'
+        assert ds['args']['path'] == f'http://testserver/datasets/{dsid}/catalog.yaml'  # noqa: E231
         assert ds['driver'] == 'intake.catalog.local.YAMLFileCatalog'
 
     def test_intake_dataset(self, dsid, client):
@@ -86,12 +86,12 @@ class DatasetTester:
         #     }
         # }
 
-        assert content['metadata']['access_url'] == f'http://testserver/datasets/{dsid}/catalog.yaml'
+        assert content['metadata']['access_url'] == f'http://testserver/datasets/{dsid}/catalog.yaml'  # noqa: E231
         assert content['name'] == dsid
 
         assert f'{dsid}-zarr' in content['sources']
         ds = content['sources'][f'{dsid}-zarr']
-        assert ds['args']['urlpath'] == f'http://testserver/datasets/{dsid}/zarr'
+        assert ds['args']['urlpath'] == f'http://testserver/datasets/{dsid}/zarr'  # noqa: E231
         assert ds['driver'] == 'zarr'
 
 
