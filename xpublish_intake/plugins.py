@@ -1,6 +1,9 @@
 import logging
 from typing import Sequence
 
+import intake
+import xarray as xr
+import tempfile
 import yaml
 from fastapi import APIRouter, Depends, Request, Response
 from starlette.routing import NoMatchFound
@@ -30,7 +33,7 @@ def get_dataset_id(ds):
     return next(x for x in dataset_id_options if x)
 
 
-def get_zarr_source(xpublish_id, dataset, request):
+def get_zarr_source(xpublish_id, request):
     url = ''
     try:
         from xpublish.plugins.included.zarr import ZarrPlugin  # noqa
@@ -48,21 +51,14 @@ def get_zarr_source(xpublish_id, dataset, request):
     if not url:
         return {}
 
-    return {
-        'driver': 'zarr',
-        'description': dataset.attrs.get('summary', ''),
-        'args': {
-            'consolidated': True,
-            'urlpath': url
-        }
-    }
+    return url
 
 
 class IntakePlugin(Plugin):
     """Adds an Intake catalog endpoint"""
 
-    name = 'intake_catalog'
-    dataset_metadata = dict()
+    name: str = 'intake_catalog'
+    dataset_metadata: dict = dict()
 
     app_router_prefix: str = '/intake'
     app_router_tags: Sequence[str] = ['intake']
@@ -84,38 +80,23 @@ class IntakePlugin(Plugin):
             dataset_ids = Depends(deps.dataset_ids)
         ):
 
-            data = {
-                'metadata': {
-                    'source': 'Served via `xpublish-intake`',
-                    'access_url': str(request.url),
-                }
+            # ADD METADATA IN
+            metadata = {
+                'source': 'Served via `xpublish-intake`',
+                'access_url': str(request.url),
             }
 
-            if dataset_ids:
-                data['sources'] = {
-                    d: {
-                        'description': self.dataset_metadata.get(d, {}).get('description', ''),
-                        'driver': 'intake.catalog.local.YAMLFileCatalog',
-                        'metadata': self.dataset_metadata.get(d, {}),
-                        'args': {
-                            'path': str(request.url_for('get_dataset_catalog', dataset_id=d))
-                        }
-                    }
-                    for d in dataset_ids
-                }
-            else:
-                data['sources'] = {
-                    'dataset': {
-                        'description': self.dataset_metadata.get('default', {}).get('description', ''),
-                        'driver': 'intake.catalog.local.YAMLFileCatalog',
-                        'metadata': self.dataset_metadata.get('default', {}),
-                        'args': {
-                            'path': str(request.url_for('get_dataset_catalog'))
-                        }
-                    }
-                }
+            cat = intake.entry.Catalog(metadata=metadata)
 
-            return Response(yaml.dump(data), media_type="text/yaml")
+            for dataset_id in dataset_ids:
+                url = get_zarr_source(dataset_id, request)
+                if not url:
+                    continue
+                data = intake.datatypes.Zarr(url, metadata={})
+                reader = data.to_reader("xarray", consolidated=True)
+                cat[f'{dataset_id}'] = reader
+
+            return Response(yaml.dump(cat.to_dict()), media_type="text/yaml")
 
         return router
 
@@ -132,21 +113,22 @@ class IntakePlugin(Plugin):
             dataset=Depends(deps.dataset),
         ):
             xpublish_id = get_dataset_id(dataset)
-            sources = {
-                'zarr': get_zarr_source(xpublish_id, dataset, request)
+
+            # ADD METADATA IN
+
+            cat = intake.entry.Catalog()
+            urls = {
+                'zarr': get_zarr_source(xpublish_id, request)
             }
 
-            data = {
-                'name': xpublish_id,
-                'metadata': {
-                    'source': 'Served via `xpublish-intake`',
-                    'access_url': str(request.url),
-                },
-                'sources': {
-                    f'{xpublish_id}-{k}': v for k, v in sources.items() if v
-                }
-            }
+            for k, url in urls.items():
+                if not url:
+                    continue
 
-            return Response(yaml.dump(data), media_type="text/yaml")
+                data = intake.datatypes.Zarr(url, metadata={})
+                reader = data.to_reader("xarray", consolidated=True)
+                cat[f'{xpublish_id}'] = reader
+
+            return Response(yaml.dump(cat.to_dict()), media_type="text/yaml")
 
         return router
