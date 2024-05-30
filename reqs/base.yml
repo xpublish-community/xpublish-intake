@@ -2,7 +2,7 @@ name: xpublish-intake
 channels:
   - conda-forge
 dependencies:
-  - conda-forge::python >=3.8,<3.12
+  - conda-forge::python >=3.8,<3.13
   - conda-forge::pip
 
   - pip:
