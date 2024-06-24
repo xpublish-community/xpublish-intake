@@ -10,7 +10,7 @@ from xpublish.utils.api import DATASET_ID_ATTR_KEY
 logger = logging.getLogger('intake_catalog')
 
 
-def get_dataset_id(ds):
+def get_dataset_id(ds,url):
     xpublish_id = ds.attrs.get(DATASET_ID_ATTR_KEY)
     cf_dataset_id = ".".join(
         [
@@ -19,11 +19,13 @@ def get_dataset_id(ds):
                 ds.attrs.get('id')
             ] if x
         ]
-    )
+    )    
+    dataset_id_by_url = url.split('/')[-2]
 
     dataset_id_options = [
         xpublish_id,
         cf_dataset_id,
+        dataset_id_by_url,
         'dataset'
     ]
 
@@ -131,7 +133,7 @@ class IntakePlugin(Plugin):
             request=Depends(get_request),
             dataset=Depends(deps.dataset),
         ):
-            xpublish_id = get_dataset_id(dataset)
+            xpublish_id = get_dataset_id(dataset,str(request.url))
             sources = {
                 'zarr': get_zarr_source(xpublish_id, dataset, request)
             }
