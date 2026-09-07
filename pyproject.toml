@@ -25,6 +25,8 @@ classifiers = [
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
   "Topic :: Internet :: WWW/HTTP",
   "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
 ]
@@ -35,15 +37,15 @@ dependencies = [
   "xpublish",
 ]
 urls."Bug Tracker" = "https://github.com/axiom-data-science/xpublish-intake/issues"
-urls."Homepage" = "https://github.com/axiom-data-science/xpublish-intake"
+urls.Homepage = "https://github.com/axiom-data-science/xpublish-intake"
 entry-points."xpublish.plugin".intake = "xpublish_intake.plugins:IntakePlugin"
 
 [tool.setuptools]
 packages = [
   "xpublish_intake",
 ]
-zip-safe = false
 include-package-data = true
+zip-safe = false
 
 [tool.setuptools_scm]
 write_to = "xpublish_intake/_version.py"
